@@ -8,8 +8,19 @@ const Products = () => {
     "https://fakestoreapi.com/products/category/women's clothing"
   );
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error}</p>;
+  if (loading)
+    return (
+      <div className="loading">
+        <p>Loading products...</p>
+      </div>
+    );
+
+  if (error)
+    return (
+      <div className="error">
+        <p>Error: {error}</p>
+      </div>
+    );
 
   return (
     <div className="products-container">

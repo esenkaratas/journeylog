@@ -10,3 +10,18 @@
   padding: 20px;
   justify-content: center;
 }
+.loading,
+.error {
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+  margin-top: 20px;
+}
+
+.loading {
+  color: #007bff;
+}
+
+.error {
+  color: #dc3545;
+}
