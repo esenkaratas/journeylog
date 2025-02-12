@@ -1,8 +1,8 @@
-# Wearable Fashion Guide 👗🎨
+# JourneyLog 👗🎨
 
 ### 📌 Project Description
 
-Wearable Fashion Guide is a fashion-focused web application that helps users explore different fashion categories and save their favorite items.
+JourneyLog is a fashion-focused web application that helps users explore different fashion categories and save their favorite items.
 
 This project is built using **React**, with product data fetched from the **Fake Store API**.
 

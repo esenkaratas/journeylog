@@ -2,9 +2,9 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
-import Products from "./pages/Products";
-import Favorites from "./pages/Favorites";
-import Colors from "./pages/Colors";
+import Explore from "./pages/Explore";
+import Destinations from "./pages/Destinations";
+import TravelTips from "./pages/TravelTips";
 
 function App() {
   return (
@@ -12,9 +12,9 @@ function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/products" element={<Products />} />
-        <Route path="/favorites" element={<Favorites />} />
-        <Route path="/colors" element={<Colors />} />
+        <Route path="/explore" element={<Explore />} />
+        <Route path="/destinations" element={<Destinations />} />
+        <Route path="/travel-tips" element={<TravelTips />} />
       </Routes>
     </Router>
   );

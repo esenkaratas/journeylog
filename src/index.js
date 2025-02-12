@@ -2,14 +2,14 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import "./styles/App.css";
-import { FavoritesProvider } from "./context/FavoritesContext";
+import { TravelProvider } from "./context/TravelContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
   <React.StrictMode>
-    <FavoritesProvider>
+    <TravelProvider>
       <App />
-    </FavoritesProvider>
+    </TravelProvider>
   </React.StrictMode>
 );
