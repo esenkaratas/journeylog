@@ -1,5 +1,48 @@
 const BASE_URL = "https://api.opentripmap.com/0.1/en/places";
 const API_KEY = process.env.REACT_APP_OPENTRIPMAP_API_KEY;
+const PEXELS_API_KEY = process.env.REACT_APP_PEXELS_API_KEY;
+const PEXELS_URL = "https://api.pexels.com/v1/search";
+
+export const getPlaceImage = async (placeName) => {
+  try {
+    const response = await fetch(
+      `${PEXELS_URL}?query=${placeName}&per_page=1`,
+      {
+        headers: {
+          Authorization: `Bearer ${PEXELS_API_KEY}`, // Authorization header'ı doğru ayarlandığından emin olun
+        },
+      }
+    );
+    if (!response.ok) {
+      throw new Error("Failed to fetch place image");
+    }
+    const data = await response.json();
+
+    console.log("Pexels API Response:", data); // Yanıtı logluyoruz
+    return data.photos && data.photos[0] ? data.photos[0].src.large : null; // Eğer fotoğraf varsa döndürüyoruz
+  } catch (error) {
+    console.error("Error fetching place image:", error);
+    return null;
+  }
+};
+
+export const getCityImage = async (cityName) => {
+  try {
+    const response = await fetch(`${PEXELS_URL}?query=${cityName}&per_page=1`, {
+      headers: {
+        Authorization: PEXELS_API_KEY,
+      },
+    });
+    if (!response.ok) {
+      throw new Error("Failed to fetch city image");
+    }
+    const data = await response.json();
+    return data.photos[0]?.src?.large || null;
+  } catch (error) {
+    console.error("Error fetching city image:", error);
+    return null;
+  }
+};
 
 export const getPlaces = async (lat, lon, radius = 5000) => {
   try {
@@ -29,11 +72,17 @@ export const getPlaceDetails = async (xid) => {
   }
 };
 
-export const getPopularPlaces = async (lat, lon, radius = 5000, cityName) => {
+export const getPopularPlaces = async (
+  lat,
+  lon,
+  radius = 5000,
+  cityName = ""
+) => {
   try {
-    const response = await fetch(
-      `${BASE_URL}/autosuggest?name=${cityName}&radius=${radius}&lon=${lon}&lat=${lat}&format=json&apikey=${API_KEY}`
-    );
+    const url = `${BASE_URL}/autosuggest?name=${
+      cityName || "random"
+    }&radius=${radius}&lon=${lon}&lat=${lat}&format=json&apikey=${API_KEY}`;
+    const response = await fetch(url);
     if (!response.ok) {
       throw new Error("Failed to fetch popular places");
     }
