@@ -1,0 +1,55 @@
+.travel-tips {
+  background-color: rgb(255, 250, 240);
+  padding: 20px;
+}
+
+.travel-tips h2 {
+  font-size: 2em;
+  color: rgb(60, 52, 45);
+  text-align: center;
+}
+
+.travel-tips input {
+  padding: 10px;
+  width: 50%;
+  max-width: 400px;
+  margin: 10px auto;
+  display: block;
+  border: 1px solid rgb(60, 52, 45);
+  border-radius: 5px;
+}
+
+.travel-tips button {
+  padding: 10px 20px;
+  background-color: rgb(85, 107, 47);
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  width: 50%;
+  max-width: 300px;
+  margin: 10px auto;
+}
+
+.travel-tips button:hover {
+  background-color: rgb(255, 140, 0);
+}
+
+.travel-tips .city-info {
+  margin-top: 20px;
+  padding: 20px;
+  background-color: rgb(255, 255, 255);
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.travel-tips .city-info img {
+  width: 100%;
+  border-radius: 5px;
+}
+
+.travel-tips .city-info p {
+  color: rgb(60, 52, 45);
+  font-size: 1.1em;
+}

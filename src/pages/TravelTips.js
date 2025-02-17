@@ -1,15 +1,14 @@
 import React, { useState } from "react";
-import { getCityImage } from "../api/travelAPI"; // API'den fotoğraf çekmek için fonksiyon
+import { getCityImage } from "../api/travelAPI";
 import "../styles/TravelTips.css";
 
 const TravelTips = () => {
-  const [city, setCity] = useState(""); // Şehir ismini tutuyor
-  const [tip, setTip] = useState(""); // Şehirle ilgili tavsiyeyi tutuyor
-  const [image, setImage] = useState(null); // Şehir fotoğrafını tutuyor
-  const [loading, setLoading] = useState(false); // Yükleniyor durumu
-  const [error, setError] = useState(null); // Hata durumunu tutuyor
+  const [city, setCity] = useState("");
+  const [tip, setTip] = useState("");
+  const [image, setImage] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-  // Şehir için tavsiyeler
   const travelTips = {
     paris:
       "Visit the Eiffel Tower, explore the Louvre Museum, and don't miss trying French pastries like croissants.",
@@ -62,18 +61,17 @@ const TravelTips = () => {
       "Explore the Pyramids of Giza, visit the Egyptian Museum, and take a boat ride on the Nile River.",
   };
 
-  // Fotoğraf ve tavsiye verisi çekmek için API'den bilgi alıyoruz
   const fetchCityData = async (cityName) => {
     setLoading(true);
     setError(null);
     try {
-      const imageUrl = await getCityImage(cityName); // Fotoğrafı alıyoruz
+      const imageUrl = await getCityImage(cityName);
       setImage(imageUrl);
 
       const cityTip =
-        travelTips[cityName.toLowerCase()] || // Şehir için tavsiyeyi alıyoruz
+        travelTips[cityName.toLowerCase()] ||
         "Traveling is always fun, enjoy your journey!";
-      setTip(cityTip); // Tavsiyeyi set ediyoruz
+      setTip(cityTip);
     } catch (err) {
       setError("Failed to fetch city data");
     } finally {
@@ -81,11 +79,10 @@ const TravelTips = () => {
     }
   };
 
-  // Arama butonuna tıklandığında şehir verisini alıyoruz
   const handleSearch = (e) => {
-    e.preventDefault(); // Formun yenilenmesini engelliyoruz
+    e.preventDefault();
     if (city.trim()) {
-      fetchCityData(city); // Şehir ismini kullanarak verileri çekiyoruz
+      fetchCityData(city);
     }
   };
 
@@ -96,7 +93,7 @@ const TravelTips = () => {
         <input
           type="text"
           value={city}
-          onChange={(e) => setCity(e.target.value)} // Şehir ismini güncelliyoruz
+          onChange={(e) => setCity(e.target.value)}
           placeholder="Enter city name"
         />
         <button onClick={handleSearch}>Search</button>

@@ -3,23 +3,27 @@ const API_KEY = process.env.REACT_APP_OPENTRIPMAP_API_KEY;
 const PEXELS_API_KEY = process.env.REACT_APP_PEXELS_API_KEY;
 const PEXELS_URL = "https://api.pexels.com/v1/search";
 
+const PROXY_URL = "https://cors-anywhere.herokuapp.com/";
+
 export const getPlaceImage = async (placeName) => {
   try {
     const response = await fetch(
-      `${PEXELS_URL}?query=${placeName}&per_page=1`,
+      `${PROXY_URL}${PEXELS_URL}?query=${placeName}&per_page=1`,
       {
         headers: {
-          Authorization: `Bearer ${PEXELS_API_KEY}`, // Authorization header'ı doğru ayarlandığından emin olun
+          Authorization: `Bearer ${PEXELS_API_KEY}`,
         },
       }
     );
+
     if (!response.ok) {
       throw new Error("Failed to fetch place image");
     }
+
     const data = await response.json();
 
-    console.log("Pexels API Response:", data); // Yanıtı logluyoruz
-    return data.photos && data.photos[0] ? data.photos[0].src.large : null; // Eğer fotoğraf varsa döndürüyoruz
+    console.log("Pexels API Response:", data);
+    return data.photos && data.photos[0] ? data.photos[0].src.large : null;
   } catch (error) {
     console.error("Error fetching place image:", error);
     return null;

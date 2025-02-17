@@ -1,10 +1,7 @@
 import React, { useState } from "react";
-import {
-  getPopularPlaces,
-  getCityCoordinates,
-  getPlaceImage,
-} from "../api/travelAPI";
+import { getPopularPlaces, getCityCoordinates } from "../api/travelAPI";
 import DestinationCard from "../components/DestinationCard";
+import "../styles/Destinations.css";
 
 const Destinations = () => {
   const [city, setCity] = useState("");
@@ -12,33 +9,15 @@ const Destinations = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // Yerleri almak için fonksiyon
   const fetchPlaces = async (latitude, longitude) => {
     try {
       const data = await getPopularPlaces(latitude, longitude, 5000, city);
 
-      // Yalnızca benzersiz yerleri almak için 'xid' ve 'name' kombinasyonu üzerinden filtreleme yapıyoruz
-      const uniquePlaces = [];
-      const placeIdentifiers = new Set(); // Benzersiz yerler için bir set kullanıyoruz
-
-      data.forEach((place) => {
-        // Eğer 'xid' ve 'name' kombinasyonu daha önce eklenmediyse, onu ekliyoruz
-        const identifier = `${place.xid}-${place.name}`;
-        if (!placeIdentifiers.has(identifier)) {
-          placeIdentifiers.add(identifier);
-          uniquePlaces.push(place);
-        }
-      });
-
-      // Fotoğrafları ekliyoruz
-      const placesWithImages = await Promise.all(
-        uniquePlaces.map(async (place) => {
-          const image = await getPlaceImage(place.name);
-          return { ...place, image };
-        })
+      const uniquePlaces = Array.from(
+        new Map(data.map((place) => [place.xid, place])).values()
       );
 
-      setPlaces(placesWithImages); // Sonuçları yerel state'e atıyoruz
+      setPlaces(uniquePlaces);
     } catch (err) {
       setError("Failed to fetch places");
     } finally {
@@ -53,8 +32,8 @@ const Destinations = () => {
     try {
       const coordinates = await getCityCoordinates(city);
       if (coordinates) {
-        const { lat: latitude, lon: longitude } = coordinates;
-        fetchPlaces(latitude, longitude);
+        const { lat, lon } = coordinates;
+        fetchPlaces(lat, lon);
       } else {
         setError("Failed to fetch city coordinates");
         setLoading(false);
@@ -79,7 +58,7 @@ const Destinations = () => {
       </div>
       <p>Currently showing places in {city}</p>
       {loading && <p>Loading...</p>}
-      {error && <p>{error}</p>}
+      {error && <p className="error">{error}</p>}
       <div className="destination-list">
         {places.map((place) => (
           <div key={place.xid}>
@@ -91,7 +70,7 @@ const Destinations = () => {
                 style={{ width: "100%" }}
               />
             ) : (
-              <p>No image available</p> // Eğer fotoğraf yoksa, bu mesaj görünsün
+              <p>No image available</p>
             )}
           </div>
         ))}
