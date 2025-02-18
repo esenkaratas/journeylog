@@ -99,7 +99,7 @@ const Home = () => {
 
       {loading && <p>Loading...</p>}
       {error && <p>{error}</p>}
-      <p>{city}</p>
+      <h2 className="city-name">{city}</h2>
 
       <div className="destination-list">
         {places.map((place) => (

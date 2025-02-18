@@ -32,6 +32,10 @@
   object-fit: cover;
 }
 
+.city-name {
+  margin: 20px 0;
+}
+
 button.primary {
   background-color: rgb(85, 107, 47);
   color: white;

@@ -1,14 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { getCityImage } from "../api/travelAPI";
 import "../styles/TravelTips.css";
 
 const TravelTips = () => {
-  const [city, setCity] = useState("");
-  const [tip, setTip] = useState("");
-  const [image, setImage] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-
   const travelTips = {
     paris:
       "Visit the Eiffel Tower, explore the Louvre Museum, and don't miss trying French pastries like croissants.",
@@ -63,56 +57,87 @@ const TravelTips = () => {
       "Explore the Pyramids of Giza, visit the Egyptian Museum, and take a boat ride on the Nile River.",
   };
 
-  const fetchCityData = async (cityName) => {
-    setLoading(true);
-    setError(null);
-    try {
-      const imageUrl = await getCityImage(cityName);
-      setImage(imageUrl);
+  const cityNames = Object.keys(travelTips);
+  const perPage = 5;
+  const totalPages = Math.ceil(cityNames.length / perPage);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [selectedCity, setSelectedCity] = useState(null);
 
-      const cityTip =
-        travelTips[cityName.toLowerCase()] ||
-        "Traveling is always fun, enjoy your journey!";
-      setTip(cityTip);
-    } catch (err) {
-      setError("Failed to fetch city data");
-    } finally {
-      setLoading(false);
+  const [cityImages, setCityImages] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const indexOfLastCity = currentPage * perPage;
+  const indexOfFirstCity = indexOfLastCity - perPage;
+  const currentCities = cityNames.slice(indexOfFirstCity, indexOfLastCity);
+
+  useEffect(() => {
+    currentCities.forEach((cityName) => {
+      if (!cityImages[cityName]) {
+        getCityImage(cityName)
+          .then((url) =>
+            setCityImages((prev) => ({ ...prev, [cityName]: url }))
+          )
+          .catch((err) =>
+            console.error("Error fetching image for", cityName, err)
+          );
+      }
+    });
+  }, [currentCities, cityImages]);
+
+  const handleCityClick = (cityName) => {
+    if (selectedCity === cityName) {
+      setSelectedCity(null);
+    } else {
+      setSelectedCity(cityName);
     }
   };
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    if (city.trim()) {
-      fetchCityData(city);
-    }
+  const goToPage = (pageNum) => {
+    setCurrentPage(pageNum);
+    setSelectedCity(null);
   };
 
   return (
     <div className="travel-tips">
       <h2>Travel Tips</h2>
-      <form className="search-container" onSubmit={handleSearch}>
-        <input
-          type="text"
-          value={city}
-          onChange={(e) => setCity(e.target.value)}
-          placeholder="Enter city name"
-        />
-        <button type="submit">Search</button>
-      </form>
+      <div className="cities-grid">
+        {currentCities.map((cityName) => (
+          <div
+            key={cityName}
+            className={`city-card ${selectedCity === cityName ? "active" : ""}`}
+            onClick={() => handleCityClick(cityName)}
+          >
+            <h3>{cityName}</h3>
+            {cityImages[cityName] ? (
+              <img
+                className="place-image"
+                src={cityImages[cityName]}
+                alt={cityName}
+              />
+            ) : (
+              <div className="placeholder-image">No Image</div>
+            )}
+            {selectedCity === cityName && (
+              <p className="city-tip">{travelTips[cityName.toLowerCase()]}</p>
+            )}
+          </div>
+        ))}
+      </div>
+      <div className="pagination">
+        {Array.from({ length: totalPages }, (_, i) => (
+          <button
+            key={i + 1}
+            className={i + 1 === currentPage ? "active" : ""}
+            onClick={() => goToPage(i + 1)}
+          >
+            {i + 1}
+          </button>
+        ))}
+      </div>
 
       {loading && <p className="loading">Loading...</p>}
       {error && <p className="error">{error}</p>}
-
-      {city && !loading && !error && (
-        <div className="result-container">
-          <h3 className="city-title">{city}</h3>
-          {image && (
-            <img className="city-image" src={image} alt={`View of ${city}`} />
-          )}
-          <p className="city-tip">{tip}</p>
-        </div>
-      )}
     </div>
   );
 };
