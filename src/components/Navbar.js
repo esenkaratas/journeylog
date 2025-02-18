@@ -4,21 +4,29 @@ import "../styles/Navbar.css";
 
 const Navbar = () => {
   return (
-    <nav className="navbar">
-      <h2>JourneyLog</h2>
-      <ul>
-        <li>
-          <Link to="/">Home</Link>
-        </li>
-        <li>
-          <Link to="/destinations">Destinations</Link>
-        </li>
-
-        <li>
-          <Link to="/travel-tips">Travel Tips</Link>
-        </li>
-      </ul>
-    </nav>
+    <div>
+      <nav className="navbar">
+        <div className="navbar-logo">
+          <img
+            src={require("../assets/travel.png")}
+            alt="Travel"
+            className="logo"
+          />
+          <h2>Traveler</h2>
+        </div>
+        <ul>
+          <li>
+            <Link to="/">Home</Link>
+          </li>
+          <li>
+            <Link to="/destinations">Destinations</Link>
+          </li>
+          <li>
+            <Link to="/travel-tips">Travel Tips</Link>
+          </li>
+        </ul>
+      </nav>
+    </div>
   );
 };
 

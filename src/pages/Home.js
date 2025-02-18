@@ -29,6 +29,7 @@ const Home = () => {
     "Los Angeles",
     "Rio de Janeiro",
     "Moscow",
+    "Tel Aviv",
     "Kyoto",
     "Madrid",
     "Istanbul",
@@ -56,14 +57,15 @@ const Home = () => {
       if (coordinates) {
         const { lat, lon } = coordinates;
         const data = await getPopularPlaces(lat, lon, 5000, randomCity);
-
+        const uniqueData = Array.from(
+          new Map(data.map((place) => [place.xid, place])).values()
+        );
         const placesWithImages = await Promise.all(
-          data.map(async (place) => {
+          uniqueData.map(async (place) => {
             const image = await getPlaceImage(place.name);
             return { ...place, image };
           })
         );
-
         setPlaces(placesWithImages);
       } else {
         setError("Failed to fetch city coordinates");
@@ -76,27 +78,32 @@ const Home = () => {
   };
 
   return (
-    <div>
-      <h1>Welcome to JourneyLog!</h1>
+    <div className="home-container">
+      <div className="intro">
+        <div className="logo">
+          <img
+            src={require("../assets/travel.png")}
+            alt="Travel"
+            className="logo"
+          />
+        </div>
+        <h1>Traveler</h1>
+        <p className="intro-text">
+          "Discover new destinations, explore amazing places, and plan your next
+          adventure!"
+        </p>
+        <button className="primary" onClick={fetchPlaces}>
+          Get Random Places
+        </button>
+      </div>
 
-      <button onClick={fetchPlaces}>Get Random Places</button>
       {loading && <p>Loading...</p>}
       {error && <p>{error}</p>}
-      <p>Currently showing places in {city}</p>
+      <p>{city}</p>
+
       <div className="destination-list">
         {places.map((place) => (
-          <div key={place.xid}>
-            <DestinationCard place={place} />
-            {place.image ? (
-              <img
-                src={place.image}
-                alt={place.name}
-                style={{ width: "100%" }}
-              />
-            ) : (
-              <p>No image available</p>
-            )}
-          </div>
+          <DestinationCard key={place.xid} place={place} />
         ))}
       </div>
     </div>

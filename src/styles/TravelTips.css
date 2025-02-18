@@ -1,27 +1,33 @@
 .travel-tips {
-  background-color: rgb(255, 250, 240);
+  background-color: #fffaf0;
   padding: 20px;
+  text-align: center;
+}
+
+.search-container {
+  margin: 50px 50px;
+  height: auto;
 }
 
 .travel-tips h2 {
   font-size: 2em;
-  color: rgb(60, 52, 45);
-  text-align: center;
+  color: #3c342d;
+  margin-bottom: 20px;
 }
 
 .travel-tips input {
-  padding: 10px;
   width: 50%;
   max-width: 400px;
-  margin: 10px auto;
   display: block;
-  border: 1px solid rgb(60, 52, 45);
+  margin: 0 auto 10px;
+  padding: 10px;
+  border: 1px solid #3c342d;
   border-radius: 5px;
 }
 
 .travel-tips button {
-  padding: 10px 20px;
-  background-color: rgb(85, 107, 47);
+  padding: 10px;
+  background-color: #556b2f;
   color: white;
   font-size: 16px;
   cursor: pointer;
@@ -29,27 +35,41 @@
   border-radius: 5px;
   width: 50%;
   max-width: 300px;
-  margin: 10px auto;
+  margin: 0 auto;
+  display: block;
+  transition: background-color 0.3s ease;
 }
 
 .travel-tips button:hover {
-  background-color: rgb(255, 140, 0);
+  background-color: #ff8c00;
 }
 
-.travel-tips .city-info {
+.result-container {
   margin-top: 20px;
   padding: 20px;
-  background-color: rgb(255, 255, 255);
+  background-color: #ffffff;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: left;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.travel-tips .city-info img {
+.city-title {
+  margin-bottom: 15px;
+  color: #3c342d;
+  text-transform: capitalize;
+}
+
+.city-image {
   width: 100%;
   border-radius: 5px;
+  margin-bottom: 15px;
 }
 
-.travel-tips .city-info p {
-  color: rgb(60, 52, 45);
+.city-tip {
+  color: #3c342d;
   font-size: 1.1em;
+  line-height: 1.5;
 }

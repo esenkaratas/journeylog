@@ -1,5 +1,9 @@
-import React, { useState } from "react";
-import { getPopularPlaces, getCityCoordinates } from "../api/travelAPI";
+import React, { useState, useEffect } from "react";
+import {
+  getPopularPlaces,
+  getCityCoordinates,
+  getCityImage,
+} from "../api/travelAPI";
 import DestinationCard from "../components/DestinationCard";
 import "../styles/Destinations.css";
 
@@ -8,6 +12,7 @@ const Destinations = () => {
   const [places, setPlaces] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [cityImage, setCityImage] = useState(null);
 
   const fetchPlaces = async (latitude, longitude) => {
     try {
@@ -17,7 +22,15 @@ const Destinations = () => {
         new Map(data.map((place) => [place.xid, place])).values()
       );
 
-      setPlaces(uniquePlaces);
+      // Fetch images for each place
+      const placesWithImages = await Promise.all(
+        uniquePlaces.map(async (place) => {
+          const image = await getCityImage(place.name);
+          return { ...place, image };
+        })
+      );
+
+      setPlaces(placesWithImages);
     } catch (err) {
       setError("Failed to fetch places");
     } finally {
@@ -34,6 +47,8 @@ const Destinations = () => {
       if (coordinates) {
         const { lat, lon } = coordinates;
         fetchPlaces(lat, lon);
+        const image = await getCityImage(city);
+        setCityImage(image);
       } else {
         setError("Failed to fetch city coordinates");
         setLoading(false);
@@ -46,32 +61,33 @@ const Destinations = () => {
 
   return (
     <div>
-      <h2>Destinations</h2>
-      <div>
+      <header className="destinations-header">
+        <h1>Discover Destinations</h1>
+        <p>Explore the best places in your favorite cities.</p>
+      </header>
+      <form className="search-form" onSubmit={handleSearch}>
         <input
           type="text"
           value={city}
           onChange={(e) => setCity(e.target.value)}
-          placeholder="Enter city name"
+          placeholder="Enter city name..."
+          className="search-input"
         />
-        <button onClick={handleSearch}>Search</button>
-      </div>
-      <p>Currently showing places in {city}</p>
-      {loading && <p>Loading...</p>}
-      {error && <p className="error">{error}</p>}
+        <button type="submit" className="search-button">
+          Search
+        </button>
+      </form>
+      {loading && <div className="loading">Loading...</div>}
+      {error && <div className="error-message">{error}</div>}
+      {cityImage && (
+        <div className="city-image-wrapper">
+          <img src={cityImage} alt={city} className="city-image" />
+        </div>
+      )}
       <div className="destination-list">
         {places.map((place) => (
           <div key={place.xid}>
             <DestinationCard place={place} />
-            {place.image ? (
-              <img
-                src={place.image}
-                alt={place.name}
-                style={{ width: "100%" }}
-              />
-            ) : (
-              <p>No image available</p>
-            )}
           </div>
         ))}
       </div>

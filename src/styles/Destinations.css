@@ -1,37 +1,87 @@
-.search-container {
+.destinations-container {
+  padding: 40px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  font-family: "Roboto", sans-serif;
+}
+
+.destinations-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.destinations-header h1 {
+  font-size: 2.5em;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.destinations-header p {
+  font-size: 1.2em;
+  color: #666;
+}
+
+.search-form {
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  padding: 0 20px;
+  gap: 10px;
+  margin-bottom: 30px;
 }
 
-input[type="text"] {
-  padding: 10px;
-  width: 80%;
-  max-width: 500px;
-  margin-bottom: 10px;
-  border: 1px solid rgb(60, 52, 45);
+.search-input {
+  flex: 1;
+  max-width: 400px;
+  padding: 12px 15px;
+  font-size: 1em;
+  border: 1px solid #ddd;
   border-radius: 5px;
-  font-size: 16px;
+  transition: border-color 0.3s ease;
 }
 
-button {
-  padding: 10px 20px;
-  background-color: rgb(85, 107, 47);
-  color: white;
-  font-size: 16px;
-  cursor: pointer;
+.search-input:focus {
+  outline: none;
+  border-color: #556b2f;
+}
+
+.search-button {
+  padding: 12px 25px;
+  background-color: #556b2f;
   border: none;
   border-radius: 5px;
-  width: 50%;
-  max-width: 300px;
-  margin-top: 10px;
+  color: #fff;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
-button:hover {
-  background-color: rgb(255, 140, 0);
+.search-button:hover {
+  background-color: #6b8f3d;
+}
+
+.loading,
+.error-message {
+  text-align: center;
+  margin: 20px 0;
+  font-size: 1.1em;
+}
+
+.error-message {
+  color: red;
+}
+
+.city-image-wrapper {
+  display: flex;
+  justify-content: center;
+  margin: 30px 0;
+}
+
+.city-image {
+  width: 100%;
+  max-width: 800px;
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .destination-list {

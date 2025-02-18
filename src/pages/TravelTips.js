@@ -39,6 +39,8 @@ const TravelTips = () => {
       "Visit the iconic Christ the Redeemer statue, relax on Copacabana Beach, and explore the beautiful Tijuca Forest.",
     moscow:
       "Visit the Red Square, explore the Kremlin, and admire the beautiful St. Basil’s Cathedral.",
+    "tel aviv":
+      "Relax on the beaches, explore the Carmel Market, and visit the ancient port city of Jaffa.",
     kyoto:
       "See the stunning Kinkaku-ji (Golden Pavilion), explore Arashiyama Bamboo Grove, and visit Fushimi Inari Shrine.",
     madrid:
@@ -89,24 +91,26 @@ const TravelTips = () => {
   return (
     <div className="travel-tips">
       <h2>Travel Tips</h2>
-      <div>
+      <form className="search-container" onSubmit={handleSearch}>
         <input
           type="text"
           value={city}
           onChange={(e) => setCity(e.target.value)}
           placeholder="Enter city name"
         />
-        <button onClick={handleSearch}>Search</button>
-      </div>
+        <button type="submit">Search</button>
+      </form>
 
-      {loading && <p>Loading...</p>}
-      {error && <p>{error}</p>}
+      {loading && <p className="loading">Loading...</p>}
+      {error && <p className="error">{error}</p>}
 
-      {city && (
-        <div>
-          <h3>{city}</h3>
-          {image && <img src={image} alt={city} />}
-          <p>{tip}</p>
+      {city && !loading && !error && (
+        <div className="result-container">
+          <h3 className="city-title">{city}</h3>
+          {image && (
+            <img className="city-image" src={image} alt={`View of ${city}`} />
+          )}
+          <p className="city-tip">{tip}</p>
         </div>
       )}
     </div>

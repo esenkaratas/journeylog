@@ -38,3 +38,11 @@ button.primary:hover {
 button.accent:hover {
   background-color: rgb(255, 122, 0);
 }
+
+.link-text {
+  text-decoration: none;
+}
+
+.link-text:hover {
+  text-decoration: none;
+}
