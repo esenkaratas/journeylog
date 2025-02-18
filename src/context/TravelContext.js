@@ -1,10 +1,13 @@
-import React from "react";
+import React, { createContext, useState, useContext } from "react";
 
-const TravelContext = React.createContext();
+const TravelContext = createContext();
 
-function TravelProvider({ children }) {
-  const [destinations, setDestinations] = React.useState([]);
-  const [loading, setLoading] = React.useState(false);
+export const TravelProvider = ({ children }) => {
+  const [city, setCity] = useState("");
+  const [places, setPlaces] = useState([]);
+  const [destinations, setDestinations] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const fetchDestinations = (city) => {
     const apiUrl = `http://api.opentripmap.com/0.1/en/places/geoname?name=${city}&apikey=${process.env.REACT_APP_OPENTRIPMAP_API_KEY}`;
@@ -18,16 +21,32 @@ function TravelProvider({ children }) {
           setDestinations([]);
         }
         setLoading(false);
+      })
+      .catch((err) => {
+        setError("There was an error fetching destinations. Please try again.");
+        setLoading(false);
       });
   };
 
-  return (
-    <TravelContext.Provider
-      value={{ destinations, loading, fetchDestinations }}
-    >
-      {children}
-    </TravelContext.Provider>
-  );
-}
+  const value = {
+    city,
+    setCity,
+    places,
+    setPlaces,
+    destinations,
+    setDestinations,
+    loading,
+    setLoading,
+    error,
+    setError,
+    fetchDestinations,
+  };
 
-export { TravelProvider, TravelContext };
+  return (
+    <TravelContext.Provider value={value}>{children}</TravelContext.Provider>
+  );
+};
+
+export const useTravel = () => {
+  return useContext(TravelContext);
+};

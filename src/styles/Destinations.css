@@ -7,8 +7,11 @@
 
 .destinations-header {
   text-align: center;
-  margin-bottom: 40px;
-  margin-top: 40px;
+  margin-bottom: 50px;
+  margin-top: 50px;
+  font-size: 1.2em;
+  font-family: "Roboto", sans-serif;
+  color: #ccc;
 }
 
 .destinations-header h1 {

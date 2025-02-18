@@ -8,6 +8,8 @@ const TravelTips = () => {
       "Visit the Eiffel Tower, explore the Louvre Museum, and don't miss trying French pastries like croissants.",
     "new york":
       "Explore Central Park, take a trip to Times Square, and visit the Statue of Liberty for an iconic New York experience.",
+    amsterdam:
+      "Take a canal cruise, visit the Anne Frank House, and explore the Van Gogh Museum for a cultural experience.",
     tokyo:
       "Check out the Shibuya Crossing, visit the Meiji Shrine, and indulge in delicious sushi and ramen.",
     london:
@@ -17,8 +19,7 @@ const TravelTips = () => {
     rome: "Visit the Colosseum, explore the Roman Forum, and don’t miss the Sistine Chapel in the Vatican City.",
     sydney:
       "Climb the Sydney Harbour Bridge, relax on Bondi Beach, and visit the famous Sydney Opera House.",
-    amsterdam:
-      "Take a canal cruise, visit the Anne Frank House, and explore the Van Gogh Museum for a cultural experience.",
+
     barcelona:
       "Admire the works of Gaudí, like the Sagrada Familia and Park Güell, and enjoy tapas at local restaurants.",
     dubai:
@@ -58,7 +59,7 @@ const TravelTips = () => {
   };
 
   const cityNames = Object.keys(travelTips);
-  const perPage = 5;
+  const perPage = 3;
   const totalPages = Math.ceil(cityNames.length / perPage);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedCity, setSelectedCity] = useState(null);
@@ -101,6 +102,7 @@ const TravelTips = () => {
   return (
     <div className="travel-tips">
       <h2>Travel Tips</h2>
+      <p className="intro">Discover travel tips for top destinations.</p>
       <div className="cities-grid">
         {currentCities.map((cityName) => (
           <div
@@ -141,5 +143,4 @@ const TravelTips = () => {
     </div>
   );
 };
-
 export default TravelTips;

@@ -22,7 +22,6 @@ const Destinations = () => {
         new Map(data.map((place) => [place.xid, place])).values()
       );
 
-      // Fetch images for each place
       const placesWithImages = await Promise.all(
         uniquePlaces.map(async (place) => {
           const image = await getCityImage(place.name);

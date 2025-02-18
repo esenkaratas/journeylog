@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import {
   getPopularPlaces,
   getCityCoordinates,
@@ -6,15 +6,21 @@ import {
 } from "../api/travelAPI";
 import DestinationCard from "../components/DestinationCard";
 import "../styles/Home.css";
+import { useTravel } from "../context/TravelContext";
 
 const Home = () => {
-  const [places, setPlaces] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [city, setCity] = useState("");
+  const {
+    city,
+    setCity,
+    places,
+    setPlaces,
+    loading,
+    setLoading,
+    error,
+    setError,
+  } = useTravel();
 
   const cities = [
-    "New York",
     "Tokyo",
     "London",
     "Paris",
@@ -23,7 +29,6 @@ const Home = () => {
     "Sydney",
     "Amsterdam",
     "Barcelona",
-    "Dubai",
     "Cape Town",
     "Toronto",
     "Los Angeles",
@@ -33,7 +38,6 @@ const Home = () => {
     "Kyoto",
     "Madrid",
     "Istanbul",
-    "Mumbai",
     "Bangkok",
     "Singapore",
     "Seoul",
@@ -41,6 +45,12 @@ const Home = () => {
     "Athens",
     "Cairo",
   ];
+
+  useEffect(() => {
+    setCity("");
+    setPlaces([]);
+    setError(null);
+  }, [setCity, setPlaces, setError]);
 
   const getRandomCity = () => {
     const randomIndex = Math.floor(Math.random() * cities.length);
@@ -68,10 +78,14 @@ const Home = () => {
         );
         setPlaces(placesWithImages);
       } else {
-        setError("Failed to fetch city coordinates");
+        setError(
+          "We couldn't determine the city coordinates. Please try again."
+        );
       }
     } catch (err) {
-      setError("Failed to fetch places");
+      setError(
+        "There was a problem fetching the places. Please check your connection and try again."
+      );
     } finally {
       setLoading(false);
     }
@@ -88,19 +102,36 @@ const Home = () => {
           />
         </div>
         <h1>Traveler</h1>
-        <p className="intro-text">
-          "Discover new destinations, explore amazing places, and plan your next
-          adventure!"
-        </p>
+
+        <div className="home-page-images">
+          <img
+            src={require("../assets/home-page1.jpeg")}
+            alt="Home Page 1"
+            className="home-page-image"
+          />
+          <img
+            src={require("../assets/home-page2.jpeg")}
+            alt="Home Page 2"
+            className="home-page-image"
+          />
+          <img
+            src={require("../assets/home-page3.jpeg")}
+            alt="Home Page 3"
+            className="home-page-image"
+          />
+          <img
+            src={require("../assets/home-page4.jpeg")}
+            alt="Home Page 4"
+            className="home-page-image"
+          />
+        </div>
         <button className="primary" onClick={fetchPlaces}>
           Get Random Places
         </button>
       </div>
-
       {loading && <p>Loading...</p>}
       {error && <p>{error}</p>}
       <h2 className="city-name">{city}</h2>
-
       <div className="destination-list">
         {places.map((place) => (
           <DestinationCard key={place.xid} place={place} />

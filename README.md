@@ -25,3 +25,12 @@ To run the project on your local machine, follow these steps:
 ```bash
 git clone https://github.com/esenkaratas/traveler.git
 ```
+
+✨ Usage
+Home: Get a quick overview of Travel and its features.
+Destinations: Search and explore a variety of travel destinations.
+Travel Tips: Browse through travel tips for popular cities. Click on a city card to view detailed tips and images.
+
+🔗 External Resources
+OpenTripMap API Documentation
+Pexels API Documentation
